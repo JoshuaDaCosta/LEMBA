@@ -1,0 +1,39 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Criar Conta | Lemba{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 560px; margin: 0 auto;">
+    <h1>Criar conta</h1>
+    <p class="muted">Escolhe o tipo de utilizador para criar o perfil inicial.</p>
+
+    {% if erro %}
+        <div class="message">{{ erro }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>
+            Nome de utilizador
+            <input type="text" name="username" required>
+        </label>
+
+        <label>
+            Palavra-passe
+            <input type="password" name="password" required>
+        </label>
+
+        <label>
+            Tipo de perfil
+            <select name="tipo" required>
+                <option value="">Seleciona um perfil</option>
+                <option value="diretor">Diretor</option>
+                <option value="professor">Professor</option>
+                <option value="aluno">Aluno</option>
+            </select>
+        </label>
+
+        <button type="submit">Criar conta</button>
+    </form>
+</section>
+{% endblock %}

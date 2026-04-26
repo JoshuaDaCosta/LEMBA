@@ -1,0 +1,29 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Entrar | Lemba{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 480px; margin: 0 auto;">
+    <h1>Entrar</h1>
+    <p class="muted">Usa a tua conta para aceder ao painel certo do sistema.</p>
+
+    {% if erro %}
+        <div class="message">{{ erro }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>
+            Nome de utilizador
+            <input type="text" name="username" required>
+        </label>
+
+        <label>
+            Palavra-passe
+            <input type="password" name="password" required>
+        </label>
+
+        <button type="submit">Entrar</button>
+    </form>
+</section>
+{% endblock %}

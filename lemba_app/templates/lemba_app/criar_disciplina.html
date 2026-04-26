@@ -1,0 +1,46 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Criar Disciplina | Lemba{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 720px; margin: 0 auto;">
+    <h1>Criar disciplina</h1>
+    <p class="muted">O diretor pode associar a disciplina a uma turma e a um semestre.</p>
+
+    {% if erro %}
+        <div class="message">{{ erro }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>
+            Nome da disciplina
+            <input type="text" name="nome" required>
+        </label>
+
+        <label>
+            Turma
+            <select name="turma" required>
+                <option value="">Seleciona uma turma</option>
+                {% for turma in turmas %}
+                    <option value="{{ turma.id }}">
+                        {{ turma.nome }} | {{ turma.ano }} | {{ turma.semestre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            Semestre
+            <select name="semestre" required>
+                <option value="">Seleciona um semestre</option>
+                {% for semestre in semestres %}
+                    <option value="{{ semestre.id }}">{{ semestre }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <button type="submit">Criar disciplina</button>
+    </form>
+</section>
+{% endblock %}

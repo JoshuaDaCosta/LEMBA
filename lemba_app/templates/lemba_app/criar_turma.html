@@ -1,0 +1,51 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Criar Turma | Lemba{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 640px; margin: 0 auto;">
+    <h1>Criar turma</h1>
+    <p class="muted">Podes definir um codigo manualmente ou deixar em branco para o sistema gerar um automaticamente.</p>
+
+    {% if erro %}
+        <div class="message">{{ erro }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>
+            Nome da turma
+            <input type="text" name="nome" required>
+        </label>
+
+        <label>
+            Ano escolar
+            <select name="ano" required>
+                <option value="">Seleciona um ano</option>
+                {% for ano in anos %}
+                    <option value="{{ ano.id }}">{{ ano }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            Semestre
+            <select name="semestre" required>
+                <option value="">Seleciona um semestre</option>
+                {% for ano in anos %}
+                    {% for semestre in ano.semestres.all %}
+                        <option value="{{ semestre.id }}">{{ semestre }}</option>
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            Codigo da turma
+            <input type="text" name="codigo" maxlength="8" placeholder="Opcional">
+        </label>
+
+        <button type="submit">Criar turma</button>
+    </form>
+</section>
+{% endblock %}

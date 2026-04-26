@@ -1,0 +1,39 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}{{ material.titulo }} | Lemba{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>{{ material.titulo }}</h1>
+    <p class="muted">
+        {{ material.ano_escolar }} | {{ material.disciplina.semestre }} |
+        {{ material.disciplina.turma.nome }} | {{ material.disciplina.nome }}
+    </p>
+    <div class="inline-actions">
+        <a href="{{ material.ficheiro.url }}" target="_blank">Abrir ficheiro original</a>
+    </div>
+</section>
+
+<section class="card stack">
+    <h2>Conteudo</h2>
+
+    {% if file_kind == "pdf" %}
+        <iframe
+            src="{{ material.ficheiro.url }}"
+            style="width: 100%; height: 80vh; border: 1px solid var(--border); border-radius: 8px;"
+            title="{{ material.titulo }}"
+        ></iframe>
+    {% elif file_kind == "image" %}
+        <img
+            src="{{ material.ficheiro.url }}"
+            alt="{{ material.titulo }}"
+            style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border);"
+        >
+    {% elif file_kind == "text" %}
+        <pre style="white-space: pre-wrap; background: var(--surface-strong); border: 1px solid var(--border); padding: 16px; border-radius: 8px;">{{ text_content }}</pre>
+    {% else %}
+        <p class="muted">Este tipo de ficheiro ainda nao pode ser renderizado diretamente na pagina.</p>
+        <a href="{{ material.ficheiro.url }}" target="_blank">Abrir ou descarregar o ficheiro</a>
+    {% endif %}
+</section>
+{% endblock %}

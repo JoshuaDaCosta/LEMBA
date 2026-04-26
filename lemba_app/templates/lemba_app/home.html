@@ -1,0 +1,14 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Inicio | Lemba{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Organiza turmas, materiais e inscricoes num so lugar.</h1>
+    <p class="muted">A estrutura do projeto ja aponta para uma plataforma escolar simples, com perfis, turmas, anos letivos e materiais publicados por professores.</p>
+    <div class="inline-actions">
+        <a href="{% url 'login' %}">Entrar</a>
+        <a href="{% url 'signup' %}">Criar conta</a>
+    </div>
+</section>
+{% endblock %}

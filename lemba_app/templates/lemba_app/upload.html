@@ -1,0 +1,51 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Publicar Material | Lemba{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 700px; margin: 0 auto;">
+    <h1>Publicar material</h1>
+    <p class="muted">Faz upload do ficheiro e associa o material a um ano escolar.</p>
+
+    {% if erro %}
+        <div class="message">{{ erro }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>
+            Titulo
+            <input type="text" name="titulo" required>
+        </label>
+
+        <label>
+            Ficheiro
+            <input type="file" name="ficheiro" required>
+        </label>
+
+        <label>
+            Ano escolar
+            <select name="ano_escolar" required>
+                <option value="">Seleciona um ano escolar</option>
+                {% for ano in anos %}
+                    <option value="{{ ano.id }}">{{ ano }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            Disciplina
+            <select name="disciplina" required>
+                <option value="">Seleciona uma disciplina</option>
+                {% for disciplina in disciplinas %}
+                    <option value="{{ disciplina.id }}">
+                        {{ disciplina.nome }} | {{ disciplina.turma.nome }} | {{ disciplina.semestre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <button type="submit">Publicar</button>
+    </form>
+</section>
+{% endblock %}

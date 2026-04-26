@@ -1,0 +1,62 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Area do Aluno | Lemba{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Area do aluno- {{request.user.username}} </h1>
+    <p class="muted">Consulta a tua inscricao atual e abre os materiais enviados pelos professores.</p>
+    <div class="inline-actions">
+        {% if not inscricoes %}
+            <a href="{% url 'entrar_turma' %}">Entrar numa turma</a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="grid">
+    <article class="card stack">
+        <h2>Minhas inscricoes</h2>
+        {% if inscricoes %}
+            <ul class="list">
+                {% for inscricao in inscricoes %}
+                    <li>
+                        <strong>{{ inscricao.turma.nome }}</strong><br>
+                        <span class="muted">
+                            Codigo: {{ inscricao.turma.codigo }} |
+                            {{ inscricao.turma.ano }} |
+                            {{ inscricao.turma.semestre }}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">Ainda nao estas inscrito em nenhuma turma.</p>
+        {% endif %}
+    </article>
+
+    <article class="card stack">
+        <h2>Arquivos recebidos</h2>
+        {% if materiais %}
+            <div class="stack">
+                {% for material in materiais %}
+                    <details class="card" style="padding: 16px;">
+                        <summary>
+                            <strong>{{ material.titulo }}</strong>
+                        </summary>
+                        <div class="stack" style="margin-top: 12px;">
+                            <p class="muted">Ano: {{ material.ano_escolar }}</p>
+                            <p class="muted">Semestre: {{ material.disciplina.semestre }}</p>
+                            <p class="muted">Turma: {{ material.disciplina.turma.nome }}</p>
+                            <p class="muted">Disciplina: {{ material.disciplina.nome }}</p>
+                            <p class="muted">Professor: {{ material.professor }}</p>
+                            <a href="{% url 'visualizar_material' material.id %}">Abrir conteudo</a>
+                        </div>
+                    </details>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="muted">Ainda nao existem materiais para a tua turma.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

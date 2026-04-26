@@ -1,0 +1,101 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Painel do Professor | Lemba{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Painel do professor</h1>
+    <p class="muted">Aqui consegues acompanhar as turmas criadas e os materiais ja publicados.</p>
+    <div class="inline-actions">
+        <a href="{% url 'criar_turma' %}">Nova turma</a>
+        <a href="{% url 'upload' %}">Novo material</a>
+    </div>
+</section>
+
+<section class="grid">
+    <article class="card stack">
+        <h2>As tuas turmas</h2>
+        {% if turmas %}
+            <ul class="list">
+                {% for turma in turmas %}
+                    <li>
+                        <strong>{{ turma.nome }}</strong><br>
+                        <span class="muted">Codigo: {{ turma.codigo }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">Ainda nao criaste nenhuma turma.</p>
+        {% endif %}
+    </article>
+
+    <article class="card stack">
+        <h2>Materiais publicados</h2>
+        {% if materiais %}
+            <ul class="list">
+                {% for material in materiais %}
+                    <li>
+                        <strong>{{ material.titulo }}</strong><br>
+                        <span class="muted">
+                            {{ material.ano_escolar }} | {{ material.disciplina.semestre }} |
+                            {{ material.disciplina.turma.nome }} | {{ material.disciplina.nome }}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">Ainda nao publicaste materiais.</p>
+        {% endif %}
+    </article>
+
+    <article class="card stack">
+        <h2>Arvore academica</h2>
+        {% if anos %}
+            <ul class="list">
+                {% for ano in anos %}
+                    <li>
+                        <strong>{{ ano }}</strong>
+                        <ul class="list" style="margin-top: 12px;">
+                            {% for semestre in ano.semestres.all %}
+                                <li>
+                                    <strong>{{ semestre }}</strong>
+                                    <ul class="list" style="margin-top: 12px;">
+                                        {% for turma in semestre.turmas.all %}
+                                            <li>
+                                                <strong>{{ turma.nome }}</strong>
+                                                <span class="muted">Codigo: {{ turma.codigo }}</span>
+                                                <ul class="list" style="margin-top: 12px;">
+                                                    {% for disciplina in turma.disciplinas.all %}
+                                                        <li>
+                                                            <strong>{{ disciplina.nome }}</strong>
+                                                            <ul class="list" style="margin-top: 12px;">
+                                                                {% for material in disciplina.materiais.all %}
+                                                                    <li>{{ material.titulo }}</li>
+                                                                {% empty %}
+                                                                    <li class="muted">Sem materiais nesta disciplina.</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </li>
+                                                    {% empty %}
+                                                        <li class="muted">Sem disciplinas nesta turma.</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        {% empty %}
+                                            <li class="muted">Sem turmas neste semestre.</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% empty %}
+                                <li class="muted">Sem semestres cadastrados.</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">Ainda nao existem anos escolares cadastrados.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

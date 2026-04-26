@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lemba{% endblock %}</title>
+    <style>
+        :root {
+            --bg: #f4efe6;
+            --surface: #fffaf2;
+            --surface-strong: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --accent: #0f766e;
+            --accent-dark: #115e59;
+            --border: #e7dcc8;
+            --danger: #b91c1c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #f8f1e7 0%, #f2f6f5 100%);
+            color: var(--text);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .shell {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 250, 242, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav a,
+        .nav button {
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .nav .primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .container {
+            width: min(1100px, calc(100% - 32px));
+            margin: 32px auto;
+        }
+
+        .hero,
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .hero {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1,
+        .card h1,
+        .card h2,
+        .card h3 {
+            margin: 0 0 8px;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .stack {
+            display: grid;
+            gap: 14px;
+        }
+
+        .list {
+            display: grid;
+            gap: 12px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .list li {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface-strong);
+        }
+
+        form {
+            display: grid;
+            gap: 14px;
+        }
+
+        label {
+            display: grid;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #d5c8b3;
+            font: inherit;
+            background: #fff;
+        }
+
+        button[type="submit"] {
+            border: 0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            background: var(--accent);
+            color: #fff;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .message {
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+            background: #fff1f2;
+            color: var(--danger);
+        }
+
+        .inline-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .inline-actions a {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface-strong);
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <header class="topbar">
+            <a href="{% url 'home' %}" class="brand">Lemba</a>
+            <nav class="nav">
+                {% if user.is_authenticated %}
+                    {% if user.perfil.tipo == "professor" or user.perfil.tipo == "diretor" %}
+                        <a href="{% url 'pagina_professor' %}">Painel</a>
+                        <a href="{% url 'criar_turma' %}">Criar turma</a>
+                        <a href="{% url 'upload' %}">Publicar material</a>
+                    {% endif %}
+                    {% if user.perfil.tipo == "diretor" %}
+                        <a href="{% url 'criar_ano' %}">Criar ano</a>
+                        <a href="{% url 'criar_semestre' %}">Criar semestre</a>
+                        <a href="{% url 'criar_disciplina' %}">Criar disciplina</a>
+                    {% endif %}
+                    {% if user.perfil.tipo == "aluno" %}
+                        <a href="{% url 'pagina_aluno' %}">Minha area</a>
+                        <a href="{% url 'entrar_turma' %}">Entrar na turma</a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}" class="primary">Sair</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Entrar</a>
+                    <a href="{% url 'signup' %}" class="primary">Criar conta</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        <main class="container">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

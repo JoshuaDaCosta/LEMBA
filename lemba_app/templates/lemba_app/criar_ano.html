@@ -1,0 +1,29 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Criar Ano | Lemba{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 640px; margin: 0 auto;">
+    <h1>Criar ano letivo</h1>
+    <p class="muted">O diretor pode definir o periodo academico base do sistema.</p>
+
+    {% if erro %}
+        <div class="message">{{ erro }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>
+            Data de inicio
+            <input type="date" name="ano_inicio" required>
+        </label>
+
+        <label>
+            Data de termino
+            <input type="date" name="ano_termino" required>
+        </label>
+
+        <button type="submit">Criar ano</button>
+    </form>
+</section>
+{% endblock %}

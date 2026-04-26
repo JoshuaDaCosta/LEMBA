@@ -1,0 +1,38 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Criar Semestre | Lemba{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 640px; margin: 0 auto;">
+    <h1>Criar semestre</h1>
+    <p class="muted">Liga o semestre a um ano letivo existente.</p>
+
+    {% if erro %}
+        <div class="message">{{ erro }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>
+            Ano letivo
+            <select name="ano" required>
+                <option value="">Seleciona um ano</option>
+                {% for ano in anos %}
+                    <option value="{{ ano.id }}">{{ ano }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            Numero do semestre
+            <select name="numero" required>
+                <option value="">Seleciona o semestre</option>
+                <option value="1">1 Semestre</option>
+                <option value="2">2 Semestre</option>
+            </select>
+        </label>
+
+        <button type="submit">Criar semestre</button>
+    </form>
+</section>
+{% endblock %}

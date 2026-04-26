@@ -1,0 +1,32 @@
+{% extends "lemba_app/base.html" %}
+
+{% block title %}Entrar na Turma | Lemba{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 640px; margin: 0 auto;">
+    <h1>Entrar na turma</h1>
+    <p class="muted">Usa o codigo da turma para concluir a tua inscricao.</p>
+
+    {% if erro %}
+        <div class="message">{{ erro }}</div>
+    {% endif %}
+
+    {% if inscricao_existente %}
+        <div class="card" style="padding: 16px;">
+            <h2>Turma atual</h2>
+            <p>{{ inscricao_existente.turma.nome }}</p>
+            <p class="muted">Codigo: {{ inscricao_existente.turma.codigo }}</p>
+        </div>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <label>
+                Codigo da turma
+                <input type="text" name="codigo" maxlength="8" required>
+            </label>
+
+            <button type="submit">Entrar</button>
+        </form>
+    {% endif %}
+</section>
+{% endblock %}
