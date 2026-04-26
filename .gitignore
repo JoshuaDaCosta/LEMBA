@@ -1,0 +1,33 @@
+# 🐍 Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# 🧪 Virtual env
+venv/
+env/
+.venv/
+
+# 🗄️ Django / DB local
+db.sqlite3
+
+# 📁 Media (uploads de utilizadores)
+media/
+
+# ⚙️ VS Code
+.vscode/
+
+# 🧾 Logs
+*.log
+
+# 🧠 Django migrations cache
+**/__pycache__/
+**/migrations/__pycache__/
+
+# 🧰 Sistema
+.DS_Store
+Thumbs.db
+
+# 🔐 Secrets
+.env
